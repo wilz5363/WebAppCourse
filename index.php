@@ -11,7 +11,10 @@ $categories = $all_categories->fetchAll(PDO::FETCH_ASSOC);
 include 'header.php'; ?>
 
 <div class="container">
-    <h1>Categories</h1>
+    <ol class="breadcrumb">
+        <li class="active">Category</li>
+    </ol>
+    <h1 class="page-header">Categories</h1>
 
     <table class="table table-hover">
         <thead>
@@ -29,7 +32,7 @@ include 'header.php'; ?>
                 . '<td>'.$category['id'].'</td>'
                 . '<td>'.$category['name'].'</td>'
                 . '<td>'.$category['updated_at'].'</td>'
-                . '<td><a href="passages.php?c='.$category['id'].'">View</a></td>'
+                . '<td><a href="passages.php?cid='.$category['id'].'">View</a></td>'
                 . '</tr>';
         }
         ?>

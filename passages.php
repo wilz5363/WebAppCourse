@@ -1,15 +1,14 @@
 <?php
 include 'constant.php';
-$title = 'Home';
-$section = 'home';
+$title = 'Passages';
+$section = 'passages';
 
+
+if ($_SERVER['REQUEST_METHOD'] == 'GET' AND isset($_GET['cid'])) {
 //get categories
-
-
-if($_SERVER['REQUEST_METHOD'] == 'GET' AND isset($_GET['c'])){
     try {
         $getCategory = $conn->prepare('select name from category where id=?');
-        $getCategory->bindParam(1, $_GET['c']);
+        $getCategory->bindParam(1, $_GET['cid']);
         $getCategory->execute();
         $category = $getCategory->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
@@ -17,11 +16,10 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' AND isset($_GET['c'])){
         exit();
     }
 
-
 //get passages
     try {
         $getPassages = $conn->prepare('select passage.id, passage.title, passage.updated_at, category.name from passage, category where category.id = passage.category_id and category.id = ?');
-        $getPassages->bindParam(1, $_GET['c']);
+        $getPassages->bindParam(1, $_GET['cid']);
         $getPassages->execute();
         $passages = $getPassages->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
@@ -31,56 +29,64 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' AND isset($_GET['c'])){
 }
 
 
-
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
+//post new passage
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     include 'validate.php';
     $title = validate($_POST['passageTitleInput']);
     $content = validate($_POST['passageContentInput']);
-    $categoryId = $_GET['c'];
+    $categoryId = $_GET['cid'];
 
-    try{
+    try {
         $postNewPassage = $conn->prepare('insert into passage(title, content, category_id) values (?,?,?)');
         $postNewPassage->bindParam(1, $title);
         $postNewPassage->bindParam(2, $content);
         $postNewPassage->bindParam(3, $categoryId);
         $postNewPassage->execute();
-        header("location:passages.php?c=".$_GET['c']);
-    }catch(PDOException $e){
+        header("location:passages.php?cid=" . $_GET['cid']);
+    } catch (PDOException $e) {
         echo $e->getMessage();
         exit();
     }
-
-
 }
-
-
 include 'header.php'; ?>
-
 <div class="container">
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th>#</th>
-            <th>Title</th>
-            <th>Last Updated At</th>
-            <th>Category</th>
-            <th>Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        <?php
-        foreach ($passages as $passage) {
-            echo '<tr>'
-                . '<td>' . $passage['id'] . '</td>'
-                . '<td>' . $passage['title'] . '</td>'
-                . '<td>' . $passage['updated_at'] . '</td>'
-                . '<td>' . $passage['name'] . '</td>'
-                . '<td><a href=passage.php?=id"' . $passage['id'] . '">View</a></td>'
-                . ' </tr > ';
-        }
-        ?>
-        </tbody>
-    </table>
+    <ol class="breadcrumb">
+        <li><a href="index.php">Category</a></li>
+        <li class="active">Passages</li>
+    </ol>
+    <h1 class="page-header">Passages</h1>
+
+    <?php
+    if (count($passages) == 0) {
+        echo '<h3 class="text-center">No Passages Added.</h3>';
+    } else { ?>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th>Last Updated At</th>
+                <th>Category</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php
+            foreach ($passages as $passage) {
+                echo '<tr>'
+                    . '<td>' . $passage['id'] . '</td>'
+                    . '<td>' . $passage['title'] . '</td>'
+                    . '<td>' . $passage['updated_at'] . '</td>'
+                    . '<td>' . $passage['name'] . '</td>'
+                    . '<td><a href="passage.php?pid=' . $passage['id'] . '">View Passage </a><a href="question.php?cid='.$_GET['cid'].'&pid=' . $passage['id'] . '">|| View Questions</a></td>'
+                    . ' </tr > ';
+            }
+            ?>
+            </tbody>
+        </table>
+    <?php
+    }
+    ?>
 </div>
 
 
@@ -98,7 +104,7 @@ include 'header.php'; ?>
                             <label for="passageTitle" class="col-lg-2 control-label">Title: </label>
                             <div class="col-lg-10">
                                 <input type="text" name="passageTitleInput" id="passageTitle" class="form-control"
-                                       required="required"  style="text-transform:uppercase" autofocus>
+                                       required="required" style="text-transform:uppercase" autofocus>
                             </div>
                         </div>
                         <div class="form-group">
