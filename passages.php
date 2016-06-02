@@ -72,9 +72,10 @@ include 'header.php'; ?>
             </thead>
             <tbody>
             <?php
+            $count = 0;
             foreach ($passages as $passage) {
                 echo '<tr>'
-                    . '<td>' . $passage['id'] . '</td>'
+                    . '<td>' . ++$count. '</td>'
                     . '<td>' . $passage['title'] . '</td>'
                     . '<td>' . $passage['updated_at'] . '</td>'
                     . '<td>' . $passage['name'] . '</td>'

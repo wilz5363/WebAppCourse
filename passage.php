@@ -1,11 +1,42 @@
 <?php
 include 'constant.php';
+include 'validate.php';
 $title = 'Passage';
 $section = 'passage';
+$passage_id;
+$getPassage;
+if(isset($_GET['pid'])){
+    $passage_id = $_GET['pid'];
 
-$passage_id = $_GET['pid'];
+    try{
+        $getPassage = $conn->query("select passage.content, passage.title, passage.id, category.name from passage, category where passage.category_id = category.id and passage.id = '".$passage_id."'")->fetch(PDO::FETCH_ASSOC);
+    }catch(PDOException $e){
+        echo $e->getMessage();
+    }
+}
 
-$getPassage = $conn->query("  select passage.content, passage.title, passage.id, category.name from passage, category where passage.category_id = category.id and passage.id = '".$passage_id."'")->fetch(PDO::FETCH_ASSOC);
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+
+    if(isset($_POST['updateBtn'])){
+        $passge_title = validate($_POST['passageTitleInput']);
+        $passage_content = validate($_POST['passageContentInput']);
+
+        try{
+            $updatePassage = $conn->prepare("update passage set title = ?, content = ?, updated_at = now() where id = ?");
+            $updatePassage->bindParam(1, $passge_title);
+            $updatePassage->bindParam(2, $passage_content);
+            $updatePassage->bindParam(3, $passage_id);
+            $updatePassage->execute();
+            header("location:passage.php?pid=$passage_id");
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+
+    }
+}
+
+
+
 include 'header.php'; ?>
 
 <div class="container">
@@ -33,15 +64,6 @@ include 'header.php'; ?>
                         <div class="col-lg-10">
                                 <textarea class="form-control" rows="25" id="passageContent" name="passageContentInput"
                                           style="overflow: scroll"><?php echo htmlspecialchars($getPassage['content']);?></textarea>
-                            <grammarly-btn>
-                                <div style="z-index: 2; opacity: 1; transform: translate(409.156px, 53px);"
-                                     class="_9b5ef6-textarea_btn _9b5ef6-not_focused" data-grammarly-reactid=".0">
-                                    <div class="_9b5ef6-transform_wrap" data-grammarly-reactid=".0.0">
-                                        <div title="Protected by Grammarly" class="_9b5ef6-status"
-                                             data-grammarly-reactid=".0.0.0">&nbsp;</div>
-                                    </div>
-                                </div>
-                            </grammarly-btn>
                         </div>
                     </div>
                     <div class="form-group">
@@ -54,7 +76,7 @@ include 'header.php'; ?>
                     <div class="form-group">
                         <div class="col-lg-10 col-lg-offset-2">
                             <a href="javascript:history.back()" class="btn btn-default">Cancel</a>
-                            <button type="submit" id="passageUpdateBtn" class="btn btn-primary" disabled>Update</button>
+                            <button type="submit" id="passageUpdateBtn" name="updateBtn" class="btn btn-primary" disabled>Update</button>
                         </div>
                     </div>
                 </fieldset>

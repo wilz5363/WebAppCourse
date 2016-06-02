@@ -9,6 +9,7 @@ session_start();
 define("BASE_URL","/WebApp/");
 define("ROOT_URL",$_SERVER["DOCUMENT_ROOT"]."/WebApp/");
 ini_set('display_errors', 'On');
+error_reporting(E_ALL & ~E_NOTICE);
 
 $dsn = 'mysql:host=localhost;port=3307;dbname=webapp';
 $username = 'root';
