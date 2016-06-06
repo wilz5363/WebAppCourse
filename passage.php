@@ -1,6 +1,5 @@
 <?php
 include 'constant.php';
-include 'validate.php';
 $title = 'Passage';
 $section = 'passage';
 $passage_id;

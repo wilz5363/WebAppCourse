@@ -27,11 +27,8 @@
 
 	<!-- Collect the nav links, forms, and other content for toggling -->
 	<div class="collapse navbar-collapse navbar-ex1-collapse">
-		<ul class="nav navbar-nav">
-			<li <?php if($section == 'category')echo 'class="active"';?>><a href="<?php echo BASE_URL;?>">Category</a></li>
-		</ul>
 		<ul class="nav navbar-nav navbar-right">
-			<li><a href="#">Sign Out</a></li>
+			<li><a href="signout.php">Sign Out</a></li>
 		</ul>
 	</div><!-- /.navbar-collapse -->
 </nav>

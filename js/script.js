@@ -5,4 +5,8 @@ $(document).ready(function(){
     $("#passageContent").change(function(){
         $("#passageUpdateBtn").removeAttr("disabled");
     });
+
+    $("#").onclick(function(){
+       alert($this.value);
+    });
 });

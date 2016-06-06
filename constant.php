@@ -6,10 +6,14 @@
  * Time: 4:26 PM
  */
 session_start();
-define("BASE_URL","/WebApp/");
-define("ROOT_URL",$_SERVER["DOCUMENT_ROOT"]."/WebApp/");
+if(!isset($_SESSION['user']) and $section !== "login"){
+    header("location: login.php");
+}
+define("BASE_URL","/bitdwilson/");
+define("ROOT_URL",$_SERVER["DOCUMENT_ROOT"]."/bitdwilson/");
 ini_set('display_errors', 'On');
 error_reporting(E_ALL & ~E_NOTICE);
+include "validate.php";
 
 $dsn = 'mysql:host=localhost;port=3307;dbname=webapp';
 $username = 'root';
