@@ -1,8 +1,8 @@
 <?php
-include 'constant.php';
+
 $title = 'Passages';
 $section = 'passages';
-
+include 'constant.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET' AND isset($_GET['cid'])) {
 //get categories
@@ -75,20 +75,23 @@ include 'header.php'; ?>
             $count = 0;
             foreach ($passages as $passage) {
                 echo '<tr>'
-                    . '<td>' . ++$count. '</td>'
+                    . '<td>' . ++$count . '</td>'
                     . '<td>' . $passage['title'] . '</td>'
                     . '<td>' . $passage['updated_at'] . '</td>'
                     . '<td>' . $passage['name'] . '</td>'
-                    . '<td><a href="passage.php?pid=' . $passage['id'] . '">View Passage </a><a href="question.php?cid='.$_GET['cid'].'&pid=' . $passage['id'] . '">|| View Questions</a></td>'
+                    . '<td><a href="passage.php?pid=' . $passage['id'] . '">View Passage </a><a href="question.php?cid=' . $_GET['cid'] . '&pid=' . $passage['id'] . '">|| View Questions</a></td>'
                     . ' </tr > ';
             }
             ?>
             </tbody>
         </table>
-    <?php
+        <?php
     }
     ?>
 </div>
+
+<a class="btn btn-primary" data-toggle="modal" href="#modal-id"
+   style="bottom:5%; right: 5%;position: fixed; border-radius: 50%; font-size: 45px; width:70px;height:70px;text-align: center;line-height:50px">+</a>
 
 
 <div class="modal fade" id="modal-id">
@@ -112,7 +115,7 @@ include 'header.php'; ?>
                             <label for="passageContent" class="col-lg-2 control-label">Textarea</label>
                             <div class="col-lg-10">
                                 <textarea class="form-control" rows="25" id="passageContent" name="passageContentInput"
-                                          style="overflow: scroll;text-transform:uppercase"></textarea>
+                                          style="overflow: scroll;text-transform:uppercase" required></textarea>
                                 <grammarly-btn>
                                     <div style="z-index: 2; opacity: 1; transform: translate(409.156px, 53px);"
                                          class="_9b5ef6-textarea_btn _9b5ef6-not_focused" data-grammarly-reactid=".0">

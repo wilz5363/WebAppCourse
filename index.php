@@ -1,8 +1,8 @@
 <?php
-include 'constant.php';
+
 $title = 'Categories';
 $section = 'category';
-
+include 'constant.php';
 $all_categories = $conn->prepare('select * from category');
 $all_categories->execute();
 $categories = $all_categories->fetchAll(PDO::FETCH_ASSOC);

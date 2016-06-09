@@ -43,16 +43,17 @@ include 'header.php'; ?>
                 <div class="form-group">
                     <label for="adminName" class="col-sm-2 control-label">Admin:</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="adminName" name="adminNameInput">
+                        <input type="text" class="form-control" id="adminName" name="adminNameInput" required>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="password" class="col-sm-2 control-label">Password</label>
                     <div class="col-sm-10">
-                        <input type="password" class="form-control" id="password" name="passwordInput">
+                        <input type="password" class="form-control" id="password" name="passwordInput" required>
                     </div>
                 </div>
-                <button type="submit" name="submitBtn" class="btn btn-primary">Submit</button>
+
+                <button type="submit" name="submitBtn" class="btn btn-primary btn-block">Submit</button>
             </form>
         </div>
     </div>

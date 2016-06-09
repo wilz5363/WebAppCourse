@@ -5,9 +5,10 @@
  * Date: 6/2/2016
  * Time: 9:02 PM
  */
-include 'constant.php';
+
 $title = 'Question';
 $section = 'question';
+include 'constant.php';
 $answers = [];
 $qid = $_GET['qid'];
 $passage_title = $_GET['passage'];

@@ -8,6 +8,8 @@
 session_start();
 if(!isset($_SESSION['user']) and $section !== "login"){
     header("location: login.php");
+}else if(isset($_SESSION['user']) and $section == "login"){
+    header("location: index.php");
 }
 define("BASE_URL","/bitdwilson/");
 define("ROOT_URL",$_SERVER["DOCUMENT_ROOT"]."/bitdwilson/");

@@ -1,7 +1,8 @@
 <?php
-include 'constant.php';
+
 $title = 'Passage';
 $section = 'passage';
+include 'constant.php';
 $passage_id;
 $getPassage;
 if(isset($_GET['pid'])){
